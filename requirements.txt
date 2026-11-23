@@ -1,0 +1,11 @@
+# Dependensi pin untuk Python 3.10–3.13 (dicoba pada Python 3.13).
+# Streamlit, folium, dan scikit-learn baru terpakai mulai bagian 2–3,
+# tetapi sudah dicantumkan agar lingkungan kelompok seragam sejak awal.
+pandas==2.3.3
+numpy==2.2.6
+SQLAlchemy==2.0.44
+streamlit==1.50.0
+folium==0.20.0
+streamlit-folium==0.25.1
+scikit-learn==1.6.1
+pytest==8.4.2
