@@ -2,8 +2,6 @@
 
 Tugas Kelompok 2 (TK2) — Sains Data, Program Studi Informatika, Universitas Udayana.
 
-**Status: bagian 1 dari 7** (struktur repositori, dataset, dan loader SQLite).
-
 ## Anggota kelompok
 
 | Nama | NIM |
@@ -21,8 +19,6 @@ Dosen pengampu: I Made Satria Bimantara, S.Kom., M.Kom.
 - Tautan: <https://www.kaggle.com/datasets/iannarsa/gofood-merchant-on-jabodetabek-and-bandung>
 - Lisensi di halaman Kaggle: **Unknown** (tidak dicantumkan secara spesifik). Data hanya dipakai untuk keperluan akademik nonkomersial, sumbernya selalu disitasi, dan aplikasi tidak akan menyediakan unduhan massal.
 - Isi folder: `data/raw/` (CSV mentah, 10.372 baris) dan `data/processed/` (hasil pembersihan TK1, 10.261 baris). File `data/kuliner.db` tidak diunggah ke Git; bangun sendiri dengan skrip di bawah.
-
-## Menjalankan bagian 1
 
 Python 3.10 atau lebih baru. Di folder ini:
 
@@ -59,7 +55,7 @@ python -m pytest
 
 Skrip `scripts/load_db.py` bersifat idempotent: dijalankan berulang kali akan membangun ulang basis data yang sama (bukan menambah baris).
 
-## Rancangan yang sudah ditetapkan (dari TK1)
+## Rancangan yang sudah ditetapkan 
 
 Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifikasi). Filter keras: radius Haversine, anggaran (`price_level` maksimum), dan rating minimum. Rating 0 pada data mentah berarti **belum dinilai**, bukan rating buruk. Jarak berbobot (akan diimplementasikan di bagian 2):
 
@@ -70,7 +66,7 @@ Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifik
 
 Tumpukan: Python, Streamlit, folium, SQLAlchemy, SQLite; deployment ke Streamlit Community Cloud menyusul di bagian 6.
 
-## Isi repositori saat ini
+## Struktur folder
 
 ```
 kuliner-knn/
