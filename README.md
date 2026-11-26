@@ -57,14 +57,12 @@ Skrip `scripts/load_db.py` bersifat idempotent: dijalankan berulang kali akan me
 
 ## Rancangan yang sudah ditetapkan 
 
-Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifikasi). Filter keras: radius Haversine, anggaran (`price_level` maksimum), dan rating minimum. Rating 0 pada data mentah berarti **belum dinilai**, bukan rating buruk. Jarak berbobot (akan diimplementasikan di bagian 2):
+Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifikasi). Filter keras: radius Haversine, anggaran (`price_level` maksimum), dan rating minimum. Rating 0 pada data mentah berarti **belum dinilai**, bukan rating buruk. Jarak berbobot:
 
 - lokasi \(d/R\), bobot 0,35
 - kategori \(1 - \mathrm{Jaccard}\), bobot 0,30
 - rating (selisih satu arah terhadap rating terbaik), bobot 0,20
 - harga \((p-1)/3\), bobot 0,15
-
-Tumpukan: Python, Streamlit, folium, SQLAlchemy, SQLite; deployment ke Streamlit Community Cloud menyusul di bagian 6.
 
 ## Struktur folder
 
@@ -80,4 +78,4 @@ kuliner-knn/
   tests/                    uji pytest
 ```
 
-Kategori disimpan dua cara: kolom teks `kategori` pada tabel `restoran` (dipisah `|`, sama seperti CSV) dan tabel normalisasi `kategori` + `restoran_kategori` untuk filter dan Jaccard di bagian berikutnya.
+Kategori disimpan dua cara: kolom teks `kategori` pada tabel `restoran` (dipisah `|`, sama seperti CSV) dan tabel normalisasi `kategori` + `restoran_kategori` untuk filter
