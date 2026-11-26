@@ -257,3 +257,12 @@ def muat_dari_csv(
 def buat_sesi(mesin: Engine) -> sessionmaker[Session]:
     """Pabrik sesi untuk pemakaian di bagian berikutnya."""
     return sessionmaker(bind=mesin, future=True, expire_on_commit=False)
+
+
+def baca_restoran(mesin: Engine | None = None, path_db: Path | None = None) -> pd.DataFrame:
+    """Baca seluruh tabel restoran sebagai DataFrame (untuk mesin rekomendasi)."""
+    if mesin is None:
+        mesin = buat_mesin(path_db=path_db)
+    with mesin.connect() as conn:
+        df = pd.read_sql(select(Restoran), conn)
+    return df
