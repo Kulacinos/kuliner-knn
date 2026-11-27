@@ -6,7 +6,8 @@ Jalankan dari akar repositori::
     streamlit run app.py
 
 Bagian 3 merampungkan FR-01 sampai FR-09 (lokasi, preferensi, pencarian,
-hasil, detail skor, dan cari nama). Fitur admin (FR-10–12) menyusul.
+hasil, detail skor, dan cari nama). Bagian 5 menambah tab Evaluasi Pengguna
+(penilaian relevansi 0/1/2 dan kuesioner SUS). Fitur admin (FR-10–12) menyusul.
 """
 
 from __future__ import annotations
@@ -24,6 +25,7 @@ import streamlit as st
 from streamlit_folium import st_folium
 
 from kuliner.config import BOBOT_DEFAULT
+from kuliner.halaman_evaluasi import tab_evaluasi_pengguna
 from kuliner.recommender import muat_katalog, titik_pusat
 from kuliner.ui_helpers import (
     KETERANGAN_HARGA,
@@ -501,7 +503,9 @@ def main() -> None:
         st.session_state["sudah_cari"] = True
         st.session_state["label_terakhir"] = pref["label"]
 
-    tab_rek, tab_nama, tab_adm = st.tabs(["Rekomendasi", "Cari Nama", "Admin"])
+    tab_rek, tab_nama, tab_eval, tab_adm = st.tabs(
+        ["Rekomendasi", "Cari Nama", "Evaluasi Pengguna", "Admin"]
+    )
     with tab_rek:
         if not st.session_state["sudah_cari"]:
             tampil_intro(data)
@@ -513,6 +517,8 @@ def main() -> None:
             tampil_hasil(pref, data)
     with tab_nama:
         tab_cari_nama(data)
+    with tab_eval:
+        tab_evaluasi_pengguna(data)
     with tab_adm:
         tab_admin()
 

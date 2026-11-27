@@ -2,7 +2,7 @@
 
 Tugas Kelompok 2 (TK2) — Sains Data, Program Studi Informatika, Universitas Udayana.
 
-**Status: bagian 4 dari 7** (struktur repositori, dataset, loader SQLite, mesin rekomendasi, antarmuka Streamlit + peta Folium, dan evaluasi offline).
+**Status: bagian 5 dari 7** (struktur repositori, dataset, loader SQLite, mesin rekomendasi, antarmuka Streamlit + peta Folium, evaluasi offline, alat evaluasi pengguna, dan uji black-box).
 
 ## Anggota kelompok
 
@@ -102,6 +102,23 @@ python scripts/evaluasi_offline.py
 
 Precision@K dan NDCG@K pada laporan ini memakai **relevansi proksi** (Subbab 3.8.1 TK1), bukan penilaian pengguna. Jangan dipakai sebagai klaim kualitas akhir; penilaian responden menyusul di bagian 5.
 
+
+Evaluasi pengguna dan uji black-box (bagian 5). Tab **Evaluasi Pengguna** pada aplikasi menampilkan daftar gabungan Top-10 (urutan acak, tanpa label metode) untuk dinilai 0/1/2, plus kuesioner SUS 10 butir. Jawaban tersimpan di `data/evaluasi/hasil/` (tidak diunggah ke Git).
+
+```bat
+python scripts\hitung_relevansi.py
+python scripts\hitung_sus.py
+python scripts\uji_black_box.py
+```
+
+```bash
+python scripts/hitung_relevansi.py
+python scripts/hitung_sus.py
+python scripts/uji_black_box.py
+```
+
+Berkas `data/evaluasi/contoh_*.csv` adalah **data tiruan** untuk menguji skrip (`--contoh`), bukan hasil responden. Panduan lengkap: `docs/evaluasi_pengguna.md`. Tabel black-box: `docs/black_box_testing.md`.
+
 ## Rancangan yang sudah ditetapkan (dari TK1)
 
 Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifikasi). Filter keras: radius Haversine, anggaran (`price_level` maksimum), dan rating minimum. Rating 0 pada data mentah berarti **belum dinilai**, bukan rating buruk. Jarak berbobot (sudah diimplementasikan di `src/kuliner/recommender.py`):
@@ -128,13 +145,25 @@ kuliner-knn/
     recommender.py          filter keras + KNN jarak berbobot
     ui_helpers.py           label, validasi, peta Folium, ringkasan hasil
     evaluasi.py             Precision@K, NDCG@K, proksi, Wilcoxon
+    sus.py                  10 butir SUS dan penskoran (Persamaan 2.7)
+    penilaian.py            penilaian relevansi 0/1/2 dan metrik manusia
+    halaman_evaluasi.py     tab Streamlit Evaluasi Pengguna
+    black_box.py            katalog dan pelaksana uji black-box
   app.py                    antarmuka Streamlit (akar repo, siap Cloud)
   .streamlit/config.toml    tema hijau sesuai mockup TK1
   scripts/load_db.py        CLI membangun data/kuliner.db
   scripts/demo_rekomendasi.py  contoh kueri (Monas / Beji)
   scripts/evaluasi_offline.py  menjalankan evaluasi dan menulis laporan
-  notebooks/TK2_Evaluasi_Offline.ipynb  narasi hasil (sudah dijalankan)
-  reports/evaluasi_offline/ CSV, JSON, dan grafik metrik
+  scripts/hitung_relevansi.py  P@10 dan NDCG@10 dari penilaian manusia
+  scripts/hitung_sus.py        ringkasan skor SUS
+  scripts/uji_black_box.py     menjalankan kasus black-box dan menulis tabel
+  scripts/buat_lembar_penilaian.py  lembar cadangan (cetak / Sheets)
+  notebooks/TK2_Evaluasi_Offline.ipynb  narasi evaluasi offline (bagian 4)
+  reports/evaluasi_offline/ CSV, JSON, dan grafik metrik proksi
+  reports/evaluasi_pengguna/  metrik dari penilaian manusia (setelah uji)
+  reports/black_box/        hasil uji black-box
+  docs/evaluasi_pengguna.md panduan responden dan petugas
+  docs/black_box_testing.md tabel kasus (aktual dan status terisi)
   tests/                    uji pytest
 ```
 
