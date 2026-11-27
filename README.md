@@ -2,7 +2,7 @@
 
 Tugas Kelompok 2 (TK2) — Sains Data, Program Studi Informatika, Universitas Udayana.
 
-**Status: bagian 2 dari 7** (struktur repositori, dataset, loader SQLite, dan mesin rekomendasi).
+**Status: bagian 4 dari 7** (struktur repositori, dataset, loader SQLite, mesin rekomendasi, antarmuka Streamlit + peta Folium, dan evaluasi offline).
 
 ## Anggota kelompok
 
@@ -37,6 +37,7 @@ Windows (Command Prompt):
 pip install -r requirements.txt
 python scripts\load_db.py
 python -m pytest
+streamlit run app.py
 ```
 
 Windows (PowerShell):
@@ -46,6 +47,7 @@ Windows (PowerShell):
 pip install -r requirements.txt
 python scripts\load_db.py
 python -m pytest
+streamlit run app.py
 ```
 
 Linux / macOS:
@@ -55,7 +57,10 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python scripts/load_db.py
 python -m pytest
+streamlit run app.py
 ```
+
+Setelah `streamlit run app.py`, buka alamat yang tampil di terminal (biasanya http://localhost:8501). Default form memakai contoh laporan TK1: Kota Depok – Beji, radius 5 km, budget level 2, rating ≥ 4,5, dan kategori Bakmie; tekan **Cari Rekomendasi** untuk melihat daftar dan peta. Waktu respons pencarian ditampilkan dan dibandingkan dengan batas NFR-01 (≤ 2 detik).
 
 Skrip `scripts/load_db.py` bersifat idempotent: dijalankan berulang kali akan membangun ulang basis data yang sama (bukan menambah baris).
 
@@ -84,6 +89,19 @@ hasil = rekomendasi(
 print(hasil[["peringkat", "nama", "jarak_km", "skor"]])
 ```
 
+
+Evaluasi offline (bagian 4). Skrip membaca 40 skenario di `data/evaluasi/skenario.csv`, membandingkan S1–S4 dan baseline rating, lalu menulis metrik serta grafik ke `reports/evaluasi_offline/`. Notebook `notebooks/TK2_Evaluasi_Offline.ipynb` menampilkan hasil yang sudah dijalankan.
+
+```bat
+python scripts\evaluasi_offline.py
+```
+
+```bash
+python scripts/evaluasi_offline.py
+```
+
+Precision@K dan NDCG@K pada laporan ini memakai **relevansi proksi** (Subbab 3.8.1 TK1), bukan penilaian pengguna. Jangan dipakai sebagai klaim kualitas akhir; penilaian responden menyusul di bagian 5.
+
 ## Rancangan yang sudah ditetapkan (dari TK1)
 
 Rekomendasi bersifat *content-based nearest-neighbour retrieval* (bukan klasifikasi). Filter keras: radius Haversine, anggaran (`price_level` maksimum), dan rating minimum. Rating 0 pada data mentah berarti **belum dinilai**, bukan rating buruk. Jarak berbobot (sudah diimplementasikan di `src/kuliner/recommender.py`):
@@ -101,14 +119,22 @@ Tumpukan: Python, Streamlit, folium, SQLAlchemy, SQLite; deployment ke Streamlit
 kuliner-knn/
   data/raw/                 CSV mentah
   data/processed/           CSV bersih
+  data/evaluasi/            40 skenario kueri (biji 42)
   src/kuliner/              paket Python
     config.py               jalur, URL SQLite, konstanta bobot
     preprocessing.py        pembersihan mentah → bersih (10.261 baris)
     db.py                   model SQLAlchemy + fungsi muat
     geo.py                  Haversine dan filter radius
     recommender.py          filter keras + KNN jarak berbobot
+    ui_helpers.py           label, validasi, peta Folium, ringkasan hasil
+    evaluasi.py             Precision@K, NDCG@K, proksi, Wilcoxon
+  app.py                    antarmuka Streamlit (akar repo, siap Cloud)
+  .streamlit/config.toml    tema hijau sesuai mockup TK1
   scripts/load_db.py        CLI membangun data/kuliner.db
   scripts/demo_rekomendasi.py  contoh kueri (Monas / Beji)
+  scripts/evaluasi_offline.py  menjalankan evaluasi dan menulis laporan
+  notebooks/TK2_Evaluasi_Offline.ipynb  narasi hasil (sudah dijalankan)
+  reports/evaluasi_offline/ CSV, JSON, dan grafik metrik
   tests/                    uji pytest
 ```
 
