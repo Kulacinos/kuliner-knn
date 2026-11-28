@@ -92,3 +92,9 @@ def _semua_teks(at) -> str:
         except Exception:
             bagian.append(str(df))
     return "\n".join(bagian)
+
+
+def test_tab_evaluasi_pengguna_tampil(at_modul):
+    teks = _semua_teks(at_modul)
+    assert "Evaluasi Pengguna" in teks or "Penilaian relevansi" in teks
+    assert "Kuesioner SUS" in teks or "System Usability Scale" in teks

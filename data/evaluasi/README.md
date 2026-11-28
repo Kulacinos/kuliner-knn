@@ -19,3 +19,24 @@ Kolom:
 `Q01` adalah kasus demonstrasi laporan TK1: Kota Depok – Beji, Bakmie, radius 5 km, budget 2, rating ≥ 4,5.
 
 Hasil metrik **tidak** disimpan di folder ini; lihat `reports/evaluasi_offline/` setelah `python scripts/evaluasi_offline.py` dijalankan.
+
+## Penilaian responden (bagian 5)
+
+Penilaian manusia **tidak** ada di berkas contoh. Jawaban nyata tersimpan di `hasil/` (diabaikan Git) lewat tab **Evaluasi Pengguna** pada aplikasi.
+
+| Berkas | Isi |
+| --- | --- |
+| `contoh_penilaian_relevansi.csv` | **DATA TIRUAN** untuk uji unit dan demonstrasi skrip. Bukan hasil responden. Setiap baris bertanda `sumber=CONTOH_BUKAN_DATA_NYATA` dan kode `CONTOH*`. |
+| `contoh_jawaban_sus.csv` | **DATA TIRUAN** jawaban SUS. Kaidah yang sama. |
+| `templat_penilaian_relevansi.csv` / `templat_sus.csv` | Kepala kolom siap diisi manual atau diunggah ke Google Sheets. |
+| `lembar/` | Lembar cadangan siap cetak (dibuat `scripts/buat_lembar_penilaian.py`). |
+| `hasil/` | Jawaban responden nyata (tidak di-commit). |
+
+Menghitung metrik dari data tiruan (untuk memastikan skrip berjalan):
+
+```bash
+python scripts/hitung_relevansi.py --contoh
+python scripts/hitung_sus.py --contoh
+```
+
+Tanpa `--contoh`, skrip hanya membaca `hasil/` dan menolak menganggap berkas `CONTOH_*` sebagai hasil resmi (tetap menampilkan peringatan jika terdeteksi).

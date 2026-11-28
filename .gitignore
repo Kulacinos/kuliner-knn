@@ -40,3 +40,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Hasil evaluasi responden nyata (jangan diunggah)
+data/evaluasi/hasil/*
+!data/evaluasi/hasil/README.md
