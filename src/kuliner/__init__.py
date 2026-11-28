@@ -16,4 +16,4 @@ __all__ = [
     "rekomendasi_dasar",
     "skor_sus",
 ]
-__version__ = "0.5.0"
+__version__ = "0.6.0"

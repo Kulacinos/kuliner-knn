@@ -266,3 +266,84 @@ def baca_restoran(mesin: Engine | None = None, path_db: Path | None = None) -> p
     with mesin.connect() as conn:
         df = pd.read_sql(select(Restoran), conn)
     return df
+
+
+def _basis_data_siap(path_db: Path) -> tuple[bool, int]:
+    """True jika berkas SQLite ada dan tabel restoran berisi paling sedikit satu baris."""
+    path_db = Path(path_db)
+    if not path_db.is_file() or path_db.stat().st_size < 1024:
+        return False, 0
+    try:
+        mesin = buat_mesin(path_db=path_db)
+        cek = hitung_isi(mesin)
+        n = int(cek.get("restoran", 0))
+        return n > 0, n
+    except Exception:  # berkas rusak atau skema belum lengkap
+        return False, 0
+
+
+def pastikan_basis_data(
+    path_db: Path | None = None,
+    path_csv: Path | None = None,
+) -> dict:
+    """Bangun ``kuliner.db`` dari CSV bersih jika belum ada (untuk Streamlit Cloud).
+
+    Berkas SQLite diabaikan Git, jadi deployment dari GitHub tidak membawa
+    ``data/kuliner.db``. Fungsi ini dipanggil saat aplikasi mulai: jika basis
+    data valid sudah ada, tidak dibangun ulang; jika belum ada atau rusak,
+    diisi dari ``data/processed/gofood_clean.csv``. Jika penulisan gagal
+    (hak akses, dsb.), pemanggil dapat jatuh ke CSV.
+
+    Nilai balik berisi ``path``, ``dibuat``, ``siap``, ``n_restoran``,
+    ``sumber`` (``sqlite`` atau ``csv``), dan ``pesan``.
+    """
+    from kuliner.config import PATH_DB
+
+    tujuan = Path(path_db) if path_db is not None else PATH_DB
+    csv = Path(path_csv) if path_csv is not None else PATH_BERSIH
+    siap, n = _basis_data_siap(tujuan)
+    if siap:
+        return {
+            "path": str(tujuan),
+            "dibuat": False,
+            "siap": True,
+            "n_restoran": n,
+            "sumber": "sqlite",
+            "pesan": f"Basis data sudah ada ({n:,} restoran).".replace(",", "."),
+        }
+    if not csv.is_file():
+        return {
+            "path": str(tujuan),
+            "dibuat": False,
+            "siap": False,
+            "n_restoran": 0,
+            "sumber": "csv",
+            "pesan": f"CSV bersih tidak ditemukan: {csv}",
+        }
+    try:
+        tujuan.parent.mkdir(parents=True, exist_ok=True)
+        if tujuan.exists():
+            # Berkas rusak atau terlalu kecil: hapus dulu agar SQLite bisa dibuat ulang.
+            tujuan.unlink()
+        mesin = buat_mesin(path_db=tujuan)
+        ringkas = muat_dari_csv(path_csv=csv, mesin=mesin, path_db=tujuan, ulang=True)
+        n = int(ringkas.get("restoran", 0))
+        return {
+            "path": str(tujuan),
+            "dibuat": True,
+            "siap": n > 0,
+            "n_restoran": n,
+            "sumber": "sqlite" if n > 0 else "csv",
+            "pesan": (
+                f"Basis data baru dibangun dari CSV ({n:,} restoran).".replace(",", ".")
+            ),
+        }
+    except Exception as exc:  # noqa: BLE001 — jatuh ke CSV agar aplikasi tetap jalan
+        return {
+            "path": str(tujuan),
+            "dibuat": False,
+            "siap": False,
+            "n_restoran": 0,
+            "sumber": "csv",
+            "pesan": f"Gagal menulis basis data ({type(exc).__name__}: {exc}). Katalog akan dibaca dari CSV.",
+        }
