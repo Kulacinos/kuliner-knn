@@ -40,3 +40,10 @@ Berkas di `data/evaluasi/lembar/` dapat dicetak atau diunggah ke Google Sheets. 
 ## Peringatan penting
 
 `data/evaluasi/contoh_penilaian_relevansi.csv` dan `contoh_jawaban_sus.csv` adalah **DATA TIRUAN** untuk menguji perangkat lunak. Skrip `hitung_*.py --contoh` akan menampilkan banner peringatan. Jangan memasukkan angkanya ke laporan hasil TK2.
+
+## Penyimpanan di Streamlit Community Cloud
+
+Jawaban di `data/evaluasi/hasil/` pada server Cloud bersifat **sementara**.
+Reboot atau deploy ulang dapat menghapusnya. Setelah setiap sesi, unduh CSV
+lewat tombol **Unduh penilaian relevansi** dan **Unduh jawaban SUS** pada
+tab Evaluasi Pengguna, lalu simpan di komputer petugas.

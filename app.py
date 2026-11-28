@@ -7,7 +7,10 @@ Jalankan dari akar repositori::
 
 Bagian 3 merampungkan FR-01 sampai FR-09 (lokasi, preferensi, pencarian,
 hasil, detail skor, dan cari nama). Bagian 5 menambah tab Evaluasi Pengguna
-(penilaian relevansi 0/1/2 dan kuesioner SUS). Fitur admin (FR-10–12) menyusul.
+(penilaian relevansi 0/1/2 dan kuesioner SUS). Bagian 6 menyiapkan
+deployment ke Streamlit Community Cloud: basis data SQLite dibangun
+otomatis dari CSV bersih jika `data/kuliner.db` belum ada. Fitur admin
+(FR-10–12) menyusul.
 """
 
 from __future__ import annotations
@@ -58,10 +61,23 @@ st.set_page_config(
 )
 
 
+@st.cache_resource(show_spinner="Menyiapkan basis data… (dibangun dari CSV jika kuliner.db belum ada)")
+def _pastikan_db() -> dict:
+    """Pastikan SQLite tersedia (Cloud tidak mengunggah .db yang diabaikan Git)."""
+    from kuliner.db import pastikan_basis_data
+    from kuliner.recommender import bersihkan_cache
+
+    info = pastikan_basis_data()
+    # Katalog in-proses harus dibaca ulang setelah DB baru dibuat.
+    bersihkan_cache()
+    return info
+
+
 @st.cache_data(show_spinner="Memuat katalog merchant…")
 def _muat_katalog_cached() -> pd.DataFrame:
-    """Katalog dibaca sekali (DB jika ada, kalau tidak CSV) lalu di-cache."""
-    return muat_katalog()
+    """Bangun DB jika perlu, lalu baca katalog (SQLite, atau CSV sebagai cadangan)."""
+    _pastikan_db()
+    return muat_katalog(ulang=True)
 
 
 def _init_sesi() -> None:
@@ -482,7 +498,10 @@ def tab_admin() -> None:
 def main() -> None:
     _css()
     _init_sesi()
+    info_db = _pastikan_db()
     data = _muat_katalog_cached()
+    if info_db.get("dibuat"):
+        st.caption(info_db.get("pesan", "Basis data baru disiapkan dari CSV bersih."))
     pref = sidebar_preferensi(data)
 
     if pref["cari"]:

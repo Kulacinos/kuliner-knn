@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
@@ -9,10 +11,14 @@ from kuliner.evaluasi import METODE
 from kuliner.penilaian import (
     LABEL_RELEVANSI,
     METODE_BANDING_DEFAULT,
+    PATH_HASIL_PENILAIAN,
+    PATH_HASIL_SUS,
     SUMBER_CONTOH,
     kumpulan_item_penilaian,
     label_skenario,
+    muat_penilaian,
     muat_skenario,
+    muat_sus,
     seed_acak,
     simpan_penilaian,
     simpan_sus,
@@ -29,13 +35,53 @@ from kuliner.sus import (
 from kuliner.ui_helpers import format_angka, teks_harga, teks_rating
 
 
+
+def _baca_berkas_unduh(path) -> bytes | None:
+    path = Path(path)
+    if not path.is_file() or path.stat().st_size == 0:
+        return None
+    return path.read_bytes()
+
+
+def _panel_unduh_jawaban() -> None:
+    """Tombol unduh CSV agar jawaban sesi Cloud tidak hilang."""
+    st.markdown("##### Unduh jawaban tersimpan")
+    rel = _baca_berkas_unduh(PATH_HASIL_PENILAIAN)
+    sus = _baca_berkas_unduh(PATH_HASIL_SUS)
+    kiri, kanan = st.columns(2)
+    with kiri:
+        if rel:
+            n = len(muat_penilaian(PATH_HASIL_PENILAIAN))
+            st.download_button(
+                label=f"Unduh penilaian relevansi ({n} baris)",
+                data=rel,
+                file_name="penilaian_relevansi.csv",
+                mime="text/csv",
+                key="unduh_penilaian",
+            )
+        else:
+            st.caption("Belum ada penilaian relevansi pada sesi ini.")
+    with kanan:
+        if sus:
+            n = len(muat_sus(PATH_HASIL_SUS))
+            st.download_button(
+                label=f"Unduh jawaban SUS ({n} responden)",
+                data=sus,
+                file_name="jawaban_sus.csv",
+                mime="text/csv",
+                key="unduh_sus",
+            )
+        else:
+            st.caption("Belum ada jawaban SUS pada sesi ini.")
+
+
 def tab_evaluasi_pengguna(data: pd.DataFrame) -> None:
     st.subheader("Evaluasi Pengguna")
     st.caption(
         "Halaman ini dipakai responden berusia 18–25 tahun untuk menilai "
         "relevansi hasil rekomendasi (skala 0/1/2) dan mengisi kuesioner "
-        "kebergunaan SUS. Jawaban disimpan di komputer yang menjalankan aplikasi "
-        "(CSV dan SQLite lokal), bukan ke server publik."
+        "kebergunaan SUS. Jawaban disimpan sebagai CSV (dan SQLite) pada "
+        "mesin yang menjalankan aplikasi."
     )
     st.info(
         "Sebelum mengisi, selesaikan dulu tugas: mencari rekomendasi di tab "
@@ -43,6 +89,13 @@ def tab_evaluasi_pengguna(data: pd.DataFrame) -> None:
         "rincian skor), lalu coba tab **Cari Nama**. Setelah itu isi penilaian "
         "relevansi dan kuesioner SUS di bawah."
     )
+    st.warning(
+        "Jika aplikasi berjalan di Streamlit Community Cloud, berkas di server "
+        "bersifat **sementara**: reboot atau deploy ulang dapat menghapus "
+        "jawaban. Unduh salinan CSV setelah setiap sesi (tombol di bawah) "
+        "dan simpan di komputer petugas."
+    )
+    _panel_unduh_jawaban()
     sub_rel, sub_sus = st.tabs(["Penilaian relevansi", "Kuesioner SUS"])
     with sub_rel:
         _form_relevansi(data)
