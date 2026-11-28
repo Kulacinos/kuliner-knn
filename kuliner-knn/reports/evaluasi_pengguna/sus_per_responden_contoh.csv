@@ -1,0 +1,4 @@
+kode_responden,skor,huruf,adjektiva_id,keberterimaan_id,sumber
+CONTOH01,90.00,A+,Terbaik yang dibayangkan,dapat diterima,CONTOH_BUKAN_DATA_NYATA
+CONTOH02,75.00,B,Baik,dapat diterima,CONTOH_BUKAN_DATA_NYATA
+CONTOH03,52.50,D,Cukup,marginal,CONTOH_BUKAN_DATA_NYATA

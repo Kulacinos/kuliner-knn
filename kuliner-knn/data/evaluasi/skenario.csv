@@ -1,0 +1,41 @@
+id,kota,kecamatan,lat,lon,radius_km,budget_maks,rating_min,kategori,k,catatan
+Q01,Kota Depok,Beji,-6.3744243236,106.8270458896,5,2,4.5000000000,Bakmie,10,"Kasus demonstrasi TK1 (Beji, Bakmie)"
+Q02,Jakarta Barat,Taman Sari,-6.1495239259,106.8199489116,3,2,4.0000000000,Jajanan,10,Skenario per kota (Jakarta Barat)
+Q03,Jakarta Pusat,Menteng,-6.1929758302,106.8289411095,5,3,4.5000000000,Bakso & soto,10,Skenario per kota (Jakarta Pusat)
+Q04,Jakarta Selatan,Pesanggrahan,-6.2577111979,106.7568508193,5,2,4.5000000000,Cepat saji,10,Skenario per kota (Jakarta Selatan)
+Q05,Jakarta Timur,Jatinegara,-6.2272732731,106.8765105285,10,4,0.0000000000,Bakso & soto,10,Skenario per kota (Jakarta Timur)
+Q06,Jakarta Utara,Kelapa Gading,-6.1589846356,106.9024821581,3,2,4.0000000000,Ayam & bebek,10,Skenario per kota (Jakarta Utara)
+Q07,Kabupaten Bandung,Rahayu,-6.9641485423,107.5630291677,5,3,4.5000000000,Ayam & bebek,10,Skenario per kota (Kabupaten Bandung)
+Q08,Kabupaten Bandung Barat,Gadobangkong,-6.8629165000,107.5191215000,5,2,4.5000000000,Jepang,10,Skenario per kota (Kabupaten Bandung Barat)
+Q09,Kabupaten Bekasi,Lambangsari,-6.2806704969,107.0446445234,10,4,0.0000000000,Jajanan,10,Skenario per kota (Kabupaten Bekasi)
+Q10,Kabupaten Bogor,Dramaga,-6.5651946317,106.7358075547,3,2,4.0000000000,Jepang,10,Skenario per kota (Kabupaten Bogor)
+Q11,Kabupaten Sumedang,Jatinangor,-6.9341565007,107.7718556781,5,3,4.5000000000,Ayam & bebek,10,Skenario per kota (Kabupaten Sumedang)
+Q12,Kabupaten Tangerang,Pasar Kemis,-6.1601419796,106.5711814145,5,2,4.5000000000,Cepat saji,10,Skenario per kota (Kabupaten Tangerang)
+Q13,Kota Bandung,Antapani,-6.9167076085,107.6590373095,10,4,0.0000000000,Jepang,10,Skenario per kota (Kota Bandung)
+Q14,Kota Bekasi,Kayuringinjaya,-6.2459190564,106.9907726572,3,2,4.0000000000,Kopi,10,Skenario per kota (Kota Bekasi)
+Q15,Kota Bogor,Bogor Selatan,-6.6195618270,106.8031792446,5,3,4.5000000000,Jepang,10,Skenario per kota (Kota Bogor)
+Q16,Kota Cimahi,Kotamas,-6.8699098325,107.5377576471,5,2,4.5000000000,Cepat saji,10,Skenario per kota (Kota Cimahi)
+Q17,Kota Tangerang,Babakan,-6.1942296667,106.6352665590,10,4,0.0000000000,Jajanan,10,Skenario per kota (Kota Tangerang)
+Q18,Kota Tangerang Selatan,Ciputat Timur,-6.3079983376,106.7590500094,3,2,4.0000000000,Kopi,10,Skenario per kota (Kota Tangerang Selatan)
+Q19,Jakarta Selatan,Kebayoran Baru,-6.2434890483,106.8012995932,1,3,4.0000000000,Kopi,10,"Radius ketat 1 km, Kopi"
+Q20,Kota Bandung,Coblong,-6.8886645726,107.6148072416,1,2,4.5000000000,Jajanan,10,"Radius ketat 1 km, Bandung"
+Q21,Jakarta Pusat,Gambir,-6.1680511179,106.8176791547,10,3,4.5000000000,Roti,10,"Radius 10 km, Gambir"
+Q22,Kota Tangerang Selatan,Serpong,-6.3128102421,106.6841921893,10,2,4.0000000000,Bakmie,10,"Radius 10 km, Serpong"
+Q23,Jakarta Timur,Cakung,-6.1887402661,106.9461348998,5,1,4.0000000000,Aneka nasi,10,Anggaran hemat (level 1)
+Q24,Kota Bekasi,Bekasi Jaya,-6.2356505976,107.0092327849,5,1,0.0000000000,Bakso & soto,10,"Anggaran hemat, tanpa filter rating"
+Q25,Jakarta Utara,Kelapa Gading,-6.1589846356,106.9024821581,5,4,4.5000000000,Jepang,10,"Anggaran longgar, Jepang"
+Q26,Jakarta Barat,Kebon Jeruk,-6.1871650184,106.7716167869,5,4,4.7000000000,Chinese,10,"Anggaran longgar, rating 4,7"
+Q27,Kota Bandung,Cicendo,-6.9047526908,107.5915184481,5,3,4.5000000000,Kopi|Sweets,10,Dua kategori: Kopi dan Sweets
+Q28,Jakarta Selatan,Setiabudi,-6.2194326116,106.8282303431,5,3,4.5000000000,Barat|Pizza & pasta,10,Dua kategori: Barat dan Pizza
+Q29,Kota Bogor,Bogor Tengah,-6.5963545607,106.8026477011,5,2,4.0000000000,Sate|Aneka nasi,10,Dua kategori: Sate dan Aneka nasi
+Q30,Kota Cimahi,Cibeber,-6.8981622800,107.5289354000,5,2,4.5000000000,,10,Tanpa pilihan kategori (bobot kategori dinolkan)
+Q31,Kabupaten Bogor,Cibinong,-6.4809958971,106.8374323450,5,3,4.0000000000,,10,Tanpa pilihan kategori
+Q32,Kota Tangerang,Karawaci,-6.1831838392,106.6187471518,5,3,4.7000000000,Seafood,10,"Ambang rating 4,7"
+Q33,Jakarta Pusat,Menteng,-6.1929758302,106.8289411095,3,3,4.7000000000,Bakmie,10,"Ambang rating 4,7, radius 3 km"
+Q34,Jakarta Selatan,Tebet,-6.2294172667,106.8492371618,5,3,4.0000000000,India,10,Kategori jarang: India
+Q35,Kota Bandung,Sumur Bandung,-6.9133297809,107.6129433474,5,3,4.0000000000,Korea,10,Kategori jarang: Korea
+Q36,Jakarta Barat,Palmerah,-6.1964775614,106.7906268343,5,3,4.5000000000,Minuman,5,Top-5 (k=5) — metrik @5 juga dihitung untuk semua kueri
+Q37,Kabupaten Tangerang,Kelapa Dua,-6.2361402402,106.6198063583,5,2,4.5000000000,Ayam & bebek,10,BSD / Kelapa Dua
+Q38,Kabupaten Bandung Barat,Gadobangkong,-6.8629165000,107.5191215000,10,3,4.0000000000,Aneka nasi,10,"Kabupaten Bandung Barat, radius 10 km"
+Q39,Kabupaten Sumedang,Jatinangor,-6.9341565007,107.7718556781,5,2,4.0000000000,Ayam & bebek,10,Jatinangor
+Q40,Kota Depok,Cinere,-6.3226410638,106.7892745338,5,2,4.5000000000,Cepat saji,5,"Variasi Depok (Cinere), Top-5"
