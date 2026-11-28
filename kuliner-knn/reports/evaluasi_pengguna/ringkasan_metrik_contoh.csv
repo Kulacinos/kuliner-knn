@@ -1,3 +1,0 @@
-metode,label_metode,n_pasangan,n_responden,n_skenario,precision_at_k_rata,ndcg_at_k_rata,adalah_contoh
-S1_jarak,S1 jarak saja,9,3,3,0.800000,0.797258,True
-S4_penuh,S4 skor penuh (usulan),9,3,3,0.866667,0.987808,True
